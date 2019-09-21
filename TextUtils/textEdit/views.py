@@ -15,7 +15,7 @@ def analyze(request):
     newlineremover =(request.GET.get('newlineremover','off'))
     extraspaceremover =(request.GET.get('extraspaceremover','off'))
     countChar =(request.GET.get('countChar','off'))
-    print(removepunc)
+    
     print(djtext)
 
     if removepunc=="on":
@@ -26,70 +26,39 @@ def analyze(request):
                 analyzed = analyzed + char
 
         params = {'purpose': "Remove Punctuations" , 'analyzed_text': analyzed }
-    #analyze thetext
-        return render(request , 'analyze.html' , params)
-    elif(fullcaps=='on'):
+        djtext=analyzed
+    
+    if(fullcaps=='on'):
         analyzed = ""
         for char in djtext:
             analyzed = analyzed + char.upper()
         params = {'purpose': "Convert text into upper case" , 'analyzed_text': analyzed }
-    #analyze thetext
-        return render(request , 'analyze.html' , params)
-
-    elif(newlineremover=='on'):
+        djtext=analyzed
+    
+    if(newlineremover=='on'):
         analyzed=""
         for char in djtext:
-            if char !='\n':
+            if char !='\n' and char!='\r':
                 analyzed = analyzed + char
         
         params = {'purpose': "Remove newLine" , 'analyzed_text': analyzed }
-    #analyze thetext
-        return render(request , 'analyze.html' , params)
-
-    elif(extraspaceremover=='on'):
+        djtext=analyzed
+    
+    if(extraspaceremover=='on'):
         analyzed=""
         for index , char in enumerate(djtext):
             if not(djtext[index]==" " and djtext[index+1]==" "):
                 analyzed=analyzed+char
         params = {'purpose': "Extra Space Remove" , 'analyzed_text': analyzed }
-    #analyze thetext
-        return render(request , 'analyze.html' , params)  
-
-    elif(countChar=='on'):
+        djtext=analyzed
+    
+    if(countChar=='on'):
         analyzed=0
         for char in djtext:
             analyzed=analyzed+1
         params = {'purpose': "Extra Space Remove" , 'analyzed_text': analyzed }
-    #analyze thetext
-        return render(request , 'analyze.html' , params)  
-        
-
-
     else:
-        return HttpResponse("Error")
-
-'''
-def removepunc(request):
-    #get the text
-    djtext = (request.GET.get('text','default'))
-    print(djtext)
-    #analyze thetext
-    return HttpResponse("<h1>removepunc</h1><br> <a href='/'>Back</a>")
+        params = {'purpose': "No operation " , 'analyzed_text': djtext }
+    return render(request , 'analyze.html' , params)       
 
 
-def capitalizefirst(request):
-    return HttpResponse("<h1> capitalizefirst</h1> <br> <a href='/'>Back</a>")
-
-
-def newlineremove(request):
-    return HttpResponse(" <h1> newlineremove</h1><br> <a href='/'>Back</a>")
-
-
-def spaceremove(request):
-    return HttpResponse(" <h1> spaceremove</h1><br> <a href='/'>Back</a>")
-
-
-def charcount(request):
-    return HttpResponse(" <h1> char count</h1><br> <a href='/'>Back</a>")
-
-'''
