@@ -9,12 +9,12 @@ def homepage(request):
 ## Analyzing text
 def analyze(request):
     #get the text
-    djtext = (request.GET.get('text','default'))
-    removepunc =  (request.GET.get('removepunc','off'))
-    fullcaps =(request.GET.get('fullcaps','off'))
-    newlineremover =(request.GET.get('newlineremover','off'))
-    extraspaceremover =(request.GET.get('extraspaceremover','off'))
-    countChar =(request.GET.get('countChar','off'))
+    djtext = (request.POST.get('text','default'))
+    removepunc =  (request.POST.get('removepunc','off'))
+    fullcaps =(request.POST.get('fullcaps','off'))
+    newlineremover =(request.POST.get('newlineremover','off'))
+    extraspaceremover =(request.POST.get('extraspaceremover','off'))
+    countChar =(request.POST.get('countChar','off'))
     
     print(djtext)
 
@@ -57,7 +57,7 @@ def analyze(request):
         for char in djtext:
             analyzed=analyzed+1
         params = {'purpose': "Extra Space Remove" , 'analyzed_text': analyzed }
-    else:
+    if (countChar!='on' and extraspaceremover!='on' and newlineremover!='on' and removepunc!='on' and fullcaps!='on'):
         params = {'purpose': "No operation " , 'analyzed_text': djtext }
     return render(request , 'analyze.html' , params)       
 
