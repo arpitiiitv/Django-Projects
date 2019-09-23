@@ -6,6 +6,10 @@ def homepage(request):
     params = {'name' : 'Arpit' , 'place' : 'Kanpur'}
     return render(request , 'index.html',params)
 
+def contact(request):
+    params ={}
+    return render(request,'contact.html',params)
+
 ## Analyzing text
 def analyze(request):
     #get the text
